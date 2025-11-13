@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광고 및 제휴 문의</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        /* 폼 요소의 시안성을 높이기 위한 CSS 추가 (styles.css에 포함되어야 함) */
+        /* 이 코드는 폼 입력 필드가 전체 너비를 차지하도록 강제하고 세로로 배열합니다. */
+        .inquiry-form label {
+            display: block; /* 라벨을 블록 레벨로 만들어 다음 요소를 다음 줄로 이동 */
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+        .inquiry-form input[type="text"],
+        .inquiry-form select,
+        .inquiry-form textarea {
+            width: 100%; /* 너비를 100%로 설정하여 가로로 꽉 채움 */
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+            font-size: 15px;
+        }
+        .inquiry-form textarea {
+            resize: vertical; /* 세로 크기 조절만 허용 */
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="header exchange-header">
+            <div class="header-content">
+                <i class="fas fa-arrow-left header-icon" onclick="window.history.back();" style="margin-left: 0; opacity: 1;"></i>
+                <h1 class="page-title" onclick="window.location.href='index.html';" style="cursor: pointer;">
+                    광고 및 제휴 문의
+                </h1>
+                <div class="header-icons-right">
+                    </div>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="partnership-content" style="padding: 20px;">
+
+                <div class="main-action-card" style="background-color: #f7f9fc; border: 1px solid #e0e6ed; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                    <i class="fas fa-handshake" style="color: #4a90e2; font-size: 24px; margin-bottom: 10px;"></i>
+                    <h3 style="margin: 0 0 5px 0; color: #333;">OllaCon과 함께 성장할 파트너를 찾습니다</h3>
+                    <p style="font-size: 14px; color: #555; line-height: 1.4;">
+                        올라콘은 높은 구매력을 가진 활성 사용자를 보유하고 있습니다. 다양한 광고 상품 제휴 및 제품 입점 상담을 환영합니다.
+                    </p>
+                </div>
+                
+                <div class="info-card-section" style="margin-bottom: 25px;">
+                    <h4 style="border-left: 4px solid #f9634d; padding-left: 10px; margin-bottom: 15px;">문의 채널 안내</h4>
+                    
+                    <div class="contact-item-group" style="background-color: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <div class="contact-item" style="padding: 15px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center;">
+                            <i class="fas fa-envelope" style="color: #f9634d; margin-right: 15px; font-size: 18px;"></i>
+                            <p style="margin: 0; font-weight: 500;">이메일: partnership@ollacon.com</p>
+                        </div>
+                        <div class="contact-item" style="padding: 15px; display: flex; align-items: center;">
+                            <i class="fas fa-phone-alt" style="color: #f9634d; margin-right: 15px; font-size: 18px;"></i>
+                            <p style="margin: 0; font-weight: 500;">전화: 070-1234-5678 (평일 09:00 ~ 18:00)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="inquiry-form" action="#" method="POST">
+                    
+                    <h4 style="border-left: 4px solid #f9634d; padding-left: 10px; margin-bottom: 20px;">온라인 문의</h4>
+                    
+                    <label for="company_name">회사/브랜드명</label>
+                    <input type="text" id="company_name" name="company_name" placeholder="회사/브랜드명을 입력하세요" required>
+
+                    <label for="contact_person">담당자 이름</label>
+                    <input type="text" id="contact_person" name="contact_person" placeholder="담당자 성함을 입력하세요" required>
+
+                    <label for="contact_phone">연락처</label>
+                    <input type="text" id="contact_phone" name="contact_phone" placeholder="연락 가능한 휴대폰 또는 유선 번호" required>
+                    
+                    <label for="inquiry_type">문의 유형</label>
+                    <select id="inquiry_type" name="inquiry_type" required>
+                        <option value="">-- 선택하세요 --</option>
+                        <option value="광고">광고 상품 제휴 문의</option>
+                        <option value="입점">제품 입점 및 판매 문의</option>
+                        <option value="기타">기타 사업 제휴 문의</option>
+                    </select>
+
+                    <label for="inquiry_details">상세 문의 내용</label>
+                    <textarea id="inquiry_details" name="inquiry_details" rows="5" placeholder="제휴를 원하는 상품 및 구체적인 내용을 상세히 입력해주세요." required></textarea>
+
+                    <div class="note-box" style="padding: 10px; background-color: #fff8e1; border-radius: 8px; font-size: 13px; color: #333; margin-top: 20px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: #fbc02d; margin-right: 5px;"></i> 문의 내용 확인 후 담당자가 영업일 기준 1~2일 내에 회신드립니다.</p>
+                    </div>
+                </form>
+
+            </div>
+        </main>
+
+        <footer class="exchange-footer">
+            <button class="exchange-action-button" 
+                    type="submit" 
+                    form="inquiry-form" 
+                    style="background-color: #f9634d; color: white;"
+                    onclick="alert('문의가 접수되었습니다. 곧 담당자가 연락드리겠습니다.');">
+                문의 접수하기
+            </button>
+        </footer>
+
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

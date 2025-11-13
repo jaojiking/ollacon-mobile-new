@@ -1,0 +1,1117 @@
+/* 기본 초기화 및 폰트 설정 (OS 친화적인 폰트 사용) */
+body {
+    /* 폰트: OS에서 가장 깔끔하게 보이는 시스템 폰트 사용 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* 밝고 깨끗한 배경 (토스 스타일) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 스마트폰 화면 컨테이너 (반응형 기본 설정) */
+.app-container {
+    /* 고정 크기 제거 */
+    width: 100%; 
+    max-width: 480px; /* 모바일/태블릿 최대 너비 설정 */
+    min-height: 100vh; /* 뷰포트 높이 꽉 채우기 */
+    background-color: #ffffff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18); 
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0; /* 모바일에서 둥근 모서리 제거 */
+}
+
+/* 768px 이상의 화면에서 데스크톱/와이드 태블릿 스타일 적용 */
+@media (min-width: 768px) {
+    body {
+        /* 큰 화면에서는 배경을 연한 인디고로 변경하여 컨테이너와 구분 */
+        background-color: #ecf0f5; 
+    }
+    .app-container {
+        width: 375px; /* 데스크톱에서는 다시 고정 너비로 축소 */
+        height: 812px; 
+        min-height: unset;
+        border-radius: 25px; /* 모서리를 둥글게 */
+        margin: 30px 0; /* 상하 여백 추가 */
+    }
+    .main-content {
+        /* 스크롤바가 데스크톱에서 기본 모바일 앱처럼 깔끔하게 보이도록 설정 */
+        scrollbar-width: none; 
+        -ms-overflow-style: none;
+    }
+    .main-content::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+/* A. 상단 헤더 (미니멀 & 깔끔함) */
+.header {
+    background-color: #ffffff;
+    padding: 15px 20px 10px 20px; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03); /* 아주 얇은 그림자 */
+    /* 반응형: 큰 화면에서 헤더가 스크롤되지 않도록 고정 */
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-size: 26px; 
+    font-weight: 900;
+    color: #192a56; /* 딥 인디고 */
+}
+.header-icon {
+    font-size: 22px; 
+    color: #34495e; 
+    margin-left: 20px;
+    cursor: pointer;
+    opacity: 0.7; 
+}
+/* 토스 스타일의 경고 바 */
+.alert-bar {
+    background-color: #fff8e1; /* 따뜻한 경고색 */
+    color: #f39c12; 
+    padding: 10px 15px;
+    margin-top: 15px;
+    border-radius: 10px; 
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ffebcd;
+    font-weight: 600;
+}
+
+/* 메인 내용 영역 */
+.main-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch; /* iOS 스크롤 성능 개선 */
+}
+
+/* ✨ B. 무료 샘플 신청 이미지 카드 (홈 화면의 새로운 핵심 요소) */
+.free-sample-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin: 20px 20px 0 20px;
+    border-radius: 20px;
+    /* 주목도 높은 그라데이션 (선물, 혜택 테마) */
+    background: linear-gradient(135deg, #f7941d, #ffc72c); 
+    box-shadow: 0 10px 20px rgba(255, 199, 44, 0.4); 
+    color: white; 
+    cursor: pointer;
+}
+.card-left {
+    flex-grow: 1;
+}
+.card-right {
+    font-size: 60px;
+    opacity: 0.9;
+}
+.card-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+}
+.card-subtitle {
+    margin: 5px 0 15px 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+.apply-button {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: white;
+    color: #f7941d;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 700;
+}
+.apply-button i {
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+/* C. 메인 액션 버튼 (매우 높은 터치 영역) */
+.main-action-button {
+    display: block;
+    width: 90%;
+    padding: 20px; 
+    margin: 25px auto;
+    /* 핵심 액션을 위한 강렬한 그라데이션 */
+    background: linear-gradient(45deg, #e74c3c, #c0392b); 
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.55);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.main-action-button:hover {
+    box-shadow: 0 10px 25px rgba(231, 76, 60, 0.7);
+}
+
+/* D. 샘플 혜택 존 (컨텐츠를 돋보이게 하는 화이트 카드) */
+.sample-zone {
+    background-color: #ffffff; 
+    color: #2c3e50;
+    padding: 18px;
+    margin: 20px 20px 25px 20px;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid #ecf0f1;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+}
+.sample-title {
+    margin: 5px 0;
+    font-weight: 700;
+    font-size: 16px;
+    color: #16a085; /* 혜택 강조 색상 */
+}
+.limited-offer {
+    font-size: 14px;
+    font-weight: 500;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+/* 주요 교환/환불 카테고리 (깔끔한 그리드 스타일) */
+.shortcut-grid {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    text-align: center;
+    margin-top: 10px;
+    gap: 15px; 
+}
+.shortcut-item {
+    cursor: pointer;
+    padding: 15px 0;
+    flex: 1; 
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05); 
+    transition: all 0.2s;
+}
+.shortcut-item:hover {
+    background-color: #f4f4f4;
+}
+.shortcut-icon {
+    font-size: 32px; 
+    color: #1abc9c; 
+    margin-bottom: 5px;
+}
+.shortcut-item:nth-child(3) .shortcut-icon {
+    color: #f39c12; 
+}
+.shortcut-item p {
+    margin: 0;
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+}
+
+
+/* E. 하단 탭 바 (반응형: 하단에 고정) */
+.tab-bar {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #f0f0f0;
+    background-color: #ffffff;
+    box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.05);
+    /* 하단에 고정 */
+    position: sticky; 
+    bottom: 0;
+    z-index: 100;
+}
+.tab-item {
+    text-align: center;
+    cursor: pointer;
+    color: #95a5a6; 
+}
+.tab-item.active {
+    color: #192a56; 
+    font-weight: 600;
+}
+.tab-item i {
+    font-size: 24px; 
+}
+.tab-item p {
+    margin: 2px 0 0 0;
+    font-size: 11px;
+}
+
+
+/* --- 교환/환불/지갑/마켓/마이페이지 공통 스타일 --- */
+
+/* 헤더: 뒤로가기 버튼과 타이틀 배치 */
+.exchange-header {
+    justify-content: flex-start !important; 
+    gap: 20px;
+}
+.page-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #192a56;
+}
+
+/* 안내 문구 */
+.exchange-guide {
+    padding: 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+}
+.exchange-guide h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #192a56;
+    margin: 0 0 5px 0;
+}
+.exchange-guide p {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0;
+}
+
+/* 최종 액션 버튼 (푸터) - 환불/교환 공통 버튼 스타일 */
+.exchange-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    /* 하단에 고정 */
+    position: sticky; 
+    bottom: 0;
+    z-index: 10;
+}
+.exchange-action-button {
+    width: 100%;
+    padding: 18px; 
+    background-color: #1abc9c; 
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(26, 188, 156, 0.4);
+    transition: all 0.3s;
+}
+.exchange-action-button.disabled {
+    background-color: #bdc3c7;
+    box-shadow: none;
+    cursor: not-allowed;
+    /* 자바스크립트 비활성화 버튼을 위한 스타일 */
+    opacity: 0.6; 
+}
+
+
+/* --- 핀 번호 교환 화면 (exchange_pin.html) 스타일 --- */
+.input-area {
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.input-area label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #192a56;
+    margin-bottom: 8px;
+}
+.pin-input {
+    width: calc(100% - 100px); 
+    padding: 15px 10px;
+    font-size: 18px;
+    letter-spacing: 2px; 
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    color: #34495e;
+    transition: border-color 0.3s;
+    float: left;
+}
+.pin-input:focus {
+    outline: none;
+    border-color: #2980b9; 
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+}
+.paste-button {
+    width: 90px;
+    padding: 15px 0;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    float: right;
+    clear: none;
+}
+.input-area::after { 
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.check-result {
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+.check-result h3 {
+    font-size: 16px;
+    color: #192a56;
+    margin-bottom: 10px;
+}
+.check-status {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); 
+}
+.check-status p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    margin: 5px 0;
+}
+.status-label {
+    color: #6c757d;
+    font-weight: 500;
+}
+.status-value {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.caution-box {
+    margin: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #fcf8e3; 
+    border: 1px solid #faebcc;
+    color: #8a6d3b;
+}
+.caution-box p {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+.caution-box ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+.caution-box li {
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+/* --- 현금 환불 화면 (refund.html) 스타일 --- */
+
+.summary-box {
+    text-align: center;
+    padding: 30px 20px;
+    margin: 20px 20px 0 20px;
+    border-radius: 20px;
+    background-color: #f0f4f7; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+.summary-title {
+    margin: 0;
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 500;
+}
+.summary-amount {
+    margin: 5px 0 0;
+    color: #192a56; 
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.fee-detail {
+    padding: 20px;
+}
+.fee-detail h3 {
+    font-size: 17px;
+    color: #34495e;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 15px;
+}
+.detail-label {
+    color: #6c757d;
+}
+.detail-value {
+    font-weight: 600;
+    color: #333;
+}
+.fee-row .detail-value {
+    color: #e74c3c; 
+    font-weight: 700;
+}
+.final-amount {
+    border-top: 2px solid #e0e0e0;
+    margin-top: 10px;
+    padding-top: 15px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.alternative-box {
+    margin: 0 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #fff3e0; 
+    color: #e67e22; 
+    border: 1px solid #ffe0b2;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.alternative-box i:first-child {
+    font-size: 24px;
+    margin-right: 10px;
+}
+.alternative-box p {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.account-input {
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+.account-input label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #192a56;
+    margin-bottom: 10px;
+}
+.account-field {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* --- 내 지갑 화면 (wallet.html) 스타일 --- */
+.wallet-balance-box {
+    text-align: center;
+    padding: 30px 20px 20px 20px;
+    margin: 20px 20px 0 20px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+.wallet-amount {
+    margin: 5px 0 0;
+    color: #192a56; 
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.wallet-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+}
+.wallet-action-btn {
+    flex: 1;
+    margin: 0 5px;
+    padding: 12px;
+    background-color: #ecf0f1;
+    color: #34495e;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.wallet-action-btn:hover {
+    background-color: #cfd8dc;
+}
+.wallet-action-btn i {
+    margin-right: 5px;
+}
+
+.transaction-history {
+    padding: 0 20px 20px 20px;
+}
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-top: 10px;
+}
+.history-header h3 {
+    font-size: 18px;
+    color: #192a56;
+    margin: 0;
+}
+.filter-select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 13px;
+    background-color: white;
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.item-icon {
+    font-size: 20px;
+    color: #95a5a6;
+    margin-right: 15px;
+}
+.item-details {
+    flex-grow: 1;
+}
+.item-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+.item-date {
+    font-size: 12px;
+    color: #95a5a6;
+    margin: 2px 0 0 0;
+}
+.item-amount {
+    font-size: 16px;
+    font-weight: 700;
+}
+.item-amount.used {
+    color: #e74c3c; 
+}
+.item-amount.charged {
+    color: #2ecc71; 
+}
+
+/* --- 교환 마켓 화면 (market.html) 스타일 --- */
+.market-header-content {
+    padding-bottom: 10px; 
+}
+.market-content {
+    padding: 0 10px; 
+}
+.header-icons-right i {
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+/* 1. 캐러셀 (이미지 슬라이드) 스타일 */
+.carousel-container {
+    overflow: hidden; 
+    position: relative;
+    padding: 0 10px 10px 10px; 
+    margin-top: 5px;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    /* 스크롤 가능한 캐러셀 디자인 */
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 15px; /* 인디케이터 공간 확보 */
+}
+.carousel::-webkit-scrollbar {
+    display: none; 
+}
+
+.carousel-item {
+    min-width: 90%; /* 화면 폭의 90% */
+    height: 120px;
+    margin-right: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 20px;
+    color: white;
+    scroll-snap-align: start;
+}
+.carousel-text {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 5px 0;
+}
+.carousel-subtext {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* 인디케이터 (페이지네이션 점) */
+.carousel-indicators {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+.dot {
+    height: 6px;
+    width: 6px;
+    background-color: #bdc3c7;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s, width 0.3s;
+}
+.dot.active {
+    background-color: #192a56;
+    width: 15px; /* 활성화된 점은 길게 */
+    border-radius: 5px;
+}
+
+
+/* 2. 카테고리 스크롤 */
+.category-scroll {
+    display: flex;
+    overflow-x: scroll;
+    padding: 0 10px 10px 10px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    border-bottom: 1px solid #ecf0f1;
+}
+.category-scroll::-webkit-scrollbar {
+    display: none; 
+}
+.category-item {
+    padding: 6px 15px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #7f8c8d;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: all 0.2s;
+    flex-shrink: 0; /* 카테고리 아이템 축소 방지 */
+}
+.category-item.active {
+    background-color: #192a56;
+    color: white;
+    border-color: #192a56;
+    font-weight: 600;
+}
+
+/* 3. 교환 상품 목록 (그리드) */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px;
+    padding: 10px 10px;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.product-card:hover {
+    transform: translateY(-2px);
+}
+
+.product-image-placeholder {
+    width: 100%;
+    padding-top: 100%; 
+    background-color: #ecf0f1; 
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #bdc3c7;
+    font-size: 12px;
+    font-weight: 600;
+}
+.image-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: #e74c3c;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.product-info {
+    padding: 10px 8px;
+}
+.product-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.product-price {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1abc9c; 
+    margin: 0;
+}
+
+/* --- 마이페이지 화면 (mypage.html) 스타일 추가 --- */
+
+.mypage-content {
+    padding: 10px 0;
+    background-color: #ffffff;
+}
+
+/* 프로필 카드 */
+.profile-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin: 10px 20px;
+    border-radius: 15px;
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.profile-avatar i {
+    font-size: 50px;
+    color: #34495e;
+    margin-right: 15px;
+}
+.profile-info {
+    flex-grow: 1;
+}
+.user-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #192a56;
+    margin: 0;
+}
+.user-email {
+    font-size: 13px;
+    color: #95a5a6;
+    margin: 2px 0 0 0;
+}
+.edit-btn {
+    padding: 8px 15px;
+    background-color: #bdc3c7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* 잔액 요약 섹션 스타일 (기존) */
+.balance-summary {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 20px;
+    margin: 10px 20px;
+    border-radius: 15px;
+    /* 토스 스타일의 밝고 깔끔한 박스 */
+    background-color: #e8f5e9; 
+    border: 1px solid #c8e6c9;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.1); 
+    position: relative;
+}
+
+.balance-item {
+    text-align: center;
+    padding: 0 10px;
+}
+.balance-label {
+    margin: 0;
+    font-size: 13px;
+    color: #4caf50; /* 포인트 색상 */
+    font-weight: 600;
+}
+.balance-amount {
+    margin: 5px 0 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #1b5e20;
+}
+
+.view-wallet-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #4caf50;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.view-wallet-btn i {
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+/* 마이페이지 바로가기 (숏컷) */
+.mypage-shortcuts {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+.mypage-shortcuts .shortcut-item {
+    padding: 15px 0;
+    flex: 1;
+}
+.mypage-shortcuts .shortcut-item i {
+    font-size: 26px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+/* 메뉴 섹션 */
+.menu-section {
+    padding: 0 20px;
+    margin-bottom: 25px;
+}
+.menu-section h3 {
+    font-size: 16px;
+    color: #192a56;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+}
+.menu-list {
+    border-top: 1px solid #f0f0f0;
+}
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+}
+.menu-item i:first-child {
+    font-size: 20px;
+    color: #7f8c8d;
+    width: 30px;
+}
+.menu-item i:last-child {
+    margin-left: auto;
+    color: #bdc3c7;
+    font-size: 14px;
+}
+
+/* 로그아웃 영역 */
+.logout-area {
+    padding: 0 20px;
+    text-align: center;
+}
+.logout-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #ecf0f1;
+    color: #e74c3c;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.logout-btn:hover {
+    background-color: #cfd8dc;
+}
+
+/* --- 스크롤 등장 애니메이션 (Scroll Reveal) 클래스 --- */
+.reveal-item {
+    opacity: 0; /* 기본적으로 숨겨진 상태 */
+    transform: translateY(20px); /* 아래에서 20px 이동된 상태 */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal-item.visible {
+    opacity: 1; /* 스크롤 시 투명도 1로 변경 */
+    transform: translateY(0); /* 원래 위치로 이동 */
+}
+
+/* --- 토글 스위치 스타일 (마이페이지 알림 설정) --- */
+
+.menu-item.toggle-item {
+    justify-content: space-between; /* 항목을 양 끝으로 분리 */
+}
+
+/* 스위치 컨테이너 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 25px;
+}
+
+/* 체크박스 숨기기 */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* 슬라이더 배경 */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 25px; /* 둥근 모서리 */
+}
+
+/* 슬라이더 핸들 (원) */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* 체크 시 배경 색상 변경 (활성화) */
+input:checked + .slider {
+    background-color: #1abc9c; /* 활성화 색상 */
+}
+
+/* 체크 시 핸들 위치 변경 */
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* --- free_sample.html 페이지 스타일 (styles.css에 통합) --- */
+.sample-page-content {
+    padding: 20px;
+    text-align: center;
+}
+.sample-page-content h2 {
+    font-size: 24px;
+    color: #f7941d;
+    margin-bottom: 5px;
+}
+.sample-page-content p {
+    font-size: 15px;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+}
+.sample-banner {
+    background: linear-gradient(135deg, #f7941d, #ffc72c); 
+    color: white;
+    padding: 40px 20px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 15px rgba(255, 199, 44, 0.5);
+}
+.sample-banner i {
+    font-size: 70px;
+    margin-bottom: 10px;
+}
+.sample-banner h3 {
+    font-size: 28px;
+    margin: 0;
+    font-weight: 900;
+}
+.info-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin-bottom: 30px;
+}
+.info-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 15px;
+}
+.info-list li i {
+    margin-right: 10px;
+    color: #1abc9c; /* 체크 마크 색상 */
+}
+.apply-form {
+    text-align: left;
+}
+.apply-form input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+.apply-form label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}

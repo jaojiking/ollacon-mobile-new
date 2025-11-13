@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무료 샘플 신청</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="header exchange-header">
+            <div class="header-content">
+                <i class="fas fa-arrow-left header-icon" onclick="window.history.back();" style="margin-left: 0; opacity: 1;"></i>
+                <h1 class="page-title" onclick="window.location.href='index.html';" style="cursor: pointer;">
+                    무료 샘플 신청
+                </h1>
+                <div class="header-icons-right">
+                    </div>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="sample-page-content">
+
+                <div class="sample-banner">
+                    <i class="fas fa-box-open"></i>
+                    <h3>OllaCon 무료 샘플 키트</h3>
+                </div>
+
+                <h2>신청 정보를 입력해주세요</h2>
+                <p>배송을 위해 정확한 정보를 입력해 주시기 바랍니다.</p>
+
+                <form class="apply-form" action="#" method="POST">
+                    
+                    <label for="name">수령인 이름</label>
+                    <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
+
+                    <label for="address_main">배송 주소</label>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <input type="text" id="postcode" name="postcode" placeholder="우편번호" style="width: 100px;" readonly>
+                        <button type="button" class="paste-button" style="width: 100px; padding: 10px 0; background-color: #2ecc71; color: white;" onclick="alert('주소 검색 기능이 활성화됩니다.');">
+                            주소 검색
+                        </button>
+                    </div>
+
+                    <input type="text" id="address_main" name="address_main" placeholder="기본 주소 (검색 결과)" readonly>
+                    <input type="text" id="address_detail" name="address_detail" placeholder="상세 주소 (호수, 동 등)" required>
+                    <label for="phone">연락처</label>
+                    <input type="text" id="phone" name="phone" placeholder="휴대폰 번호를 입력하세요 (예: 010-1234-5678)" required>
+
+                    <label for="memo" style="margin-top: 15px;">배송 메모 (선택)</label>
+                    <input type="text" id="memo" name="memo" placeholder="예: 문 앞 / 경비실 등">
+                    
+                </form>
+
+                <ul class="info-list" style="margin-top: 40px;">
+                    <li><i class="fas fa-check-circle"></i> 배송비는 무료입니다.</li>
+                    <li><i class="fas fa-check-circle"></i> 1인 1회만 신청 가능합니다.</li>
+                    <li><i class="fas fa-check-circle"></i> 배송은 신청일로부터 7일 이내에 이루어집니다.</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer class="exchange-footer">
+            <button class="exchange-action-button" type="submit" onclick="alert('무료 샘플 신청이 완료되었습니다.');">
+                신청 완료하기
+            </button>
+        </footer>
+
+    </div>
+    
+    <script src="app.js"></script>
+    </body>
+</html>

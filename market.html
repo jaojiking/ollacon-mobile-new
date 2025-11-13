@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 교환 마켓 - OllaCon</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        /* 팝업 관련 CSS: display:none 상태를 active 클래스로 제어 */
+
+        /* 결제 팝업 컨테이너 */
+        .payment-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex; /* flex로 변경하여 내부 요소를 중앙에 배치 준비 */
+            justify-content: center;
+            align-items: flex-end; /* 화면 하단에 팝업이 나타나도록 설정 */
+            z-index: 1000;
+            opacity: 0; /* 초기 투명하게 설정 */
+            visibility: hidden; /* 초기 숨김 상태 */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        /* 팝업 활성화 시 */
+        .payment-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 팝업 내용 */
+        .payment-content {
+            background: white;
+            width: 100%;
+            max-width: 450px; /* 모바일 최대 너비 */
+            padding: 20px 20px 40px 20px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(100%); /* 초기 위치: 화면 밖 */
+            transition: transform 0.3s ease-out;
+        }
+        
+        /* 팝업 보일 때 */
+        .payment-popup.active .payment-content {
+            transform: translateY(0);
+        }
+
+        /* 기타 스타일 (이전과 동일) */
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .payment-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .payment-info p {
+            margin: 5px 0;
+            font-size: 15px;
+            color: #555;
+        }
+        .payment-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f9634d; /* 강조색 */
+            margin: 10px 0 25px 0;
+        }
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .method-btn {
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .method-btn:hover {
+            background: #f0f0f0;
+        }
+        .method-btn.selected {
+            border: 2px solid #f9634d;
+            background: #fffafa;
+        }
+        .confirm-payment-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #f9634d; /* 메인 버튼 색상 통일 */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 25px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="header exchange-header">
+            <div class="header-content">
+                <i class="fas fa-arrow-left header-icon" onclick="window.history.back();" style="margin-left: 0; opacity: 1;"></i>
+                <span class="logo page-title" onclick="window.location.href='index.html';" style="cursor: pointer;">제품권 교환 마켓</span>
+                <div class="header-icons-right"></div>
+            </div>
+            <div class="alert-bar" style="background-color: #e3f2fd; color: #1e88e5; border: 1px solid #bbdefb;">
+                <i class="fas fa-info-circle"></i>
+                <span style="font-weight: 700;">[교환 정책]</span> **금액권보다 높은 가격**의 제품 중 **차액 5,000원 미만** 제품만 교환 가능합니다.
+            </div>
+        </header>
+        
+        <main class="main-content market-content">
+
+            <div class="carousel-container">
+                <div class="carousel" id="marketCarousel">
+                    <div class="carousel-item" style="background: linear-gradient(45deg, #1abc9c, #16a085);">
+                        <p class="carousel-text">✅ 1만원권: 10,001원 ~ 15,000원 제품 교환</p>
+                        <p class="carousel-subtext">3,000원 추가 결제 시 13,000원 제품 교환 가능</p>
+                    </div>
+                    <div class="carousel-item" style="background: linear-gradient(45deg, #3498db, #2980b9);">
+                        <p class="carousel-text">✅ 3만원권: 30,001원 ~ 35,000원 제품 교환</p>
+                        <p class="carousel-subtext">최대 5,000원 추가 결제로 상품 선택의 폭을 넓히세요!</p>
+                    </div>
+                    <div class="carousel-item" style="background: linear-gradient(45deg, #9b59b6, #8e44ad);">
+                        <p class="carousel-text">🚫 금액권보다 낮은 가격 제품은 교환 불가합니다.</p>
+                        <p class="carousel-subtext">정책을 확인 후 신중하게 상품을 선택해 주세요.</p>
+                    </div>
+                </div>
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+
+            <div class="category-scroll">
+                <div class="category-item active">전체</div>
+                <div class="category-item">식품/외식</div>
+                <div class="category-item">커피/음료</div>
+                <div class="category-item">편의점</div>
+                <div class="category-item">쇼핑/잡화</div>
+                <div class="category-item">디지털</div>
+            </div>
+            
+            <div class="product-grid">
+                <div class="product-card" onclick="openPaymentPopup('맥도날드 햄버거 세트', 13500, 10000);">
+                    <div class="product-image-placeholder">
+                        <span class="image-tag" style="background-color: #f39c12;">1만원권 교환</span>
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">맥도날드 햄버거 세트</p>
+                        <p class="product-price">13,500원</p>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="openPaymentPopup('CGV 영화 관람권', 14900, 10000);">
+                    <div class="product-image-placeholder">
+                        <span class="image-tag" style="background-color: #2ecc71;">1만원권 교환</span>
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">CGV 영화 관람권</p>
+                        <p class="product-price">14,900원</p>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="openPaymentPopup('스타벅스 세트 교환권', 12500, 10000);">
+                    <div class="product-image-placeholder">
+                        <span class="image-tag" style="background-color: #34495e;">1만원권 교환</span>
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">스타벅스 세트 교환권</p>
+                        <p class="product-price">12,500원</p>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="openPaymentPopup('브랜드 의류 상품권', 32000, 30000);">
+                    <div class="product-image-placeholder">
+                        <span class="image-tag" style="background-color: #e74c3c;">3만원권 교환</span>
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">브랜드 의류 상품권</p>
+                        <p class="product-price">32,000원</p>
+                    </div>
+                </div>
+                
+                <div class="product-card" onclick="openPaymentPopup('스마트폰 충전기 세트', 54500, 50000);">
+                    <div class="product-image-placeholder">
+                        <span class="image-tag" style="background-color: #9b59b6;">5만원권 교환</span>
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">스마트폰 충전기 세트</p>
+                        <p class="product-price">54,500원</p>
+                    </div>
+                </div>
+                
+                <div class="product-card" onclick="openPaymentPopup('도미노피자 세트', 33000, 30000);">
+                    <div class="product-image-placeholder">
+                        <span class="image-tag" style="background-color: #1abc9c;">3만원권 교환</span>
+                        <i class="fas fa-pizza-slice"></i>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">도미노피자 세트</p>
+                        <p class="product-price">33,000원</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer class="tab-bar">
+            <div class="tab-item" onclick="window.location.href='index.html';"><i class="fas fa-home"></i><p>홈</p></div>
+            <div class="tab-item active"><i class="fas fa-store"></i><p>제품 교환권</p></div>
+            <div class="tab-item" onclick="window.location.href='wallet.html';"><i class="fas fa-wallet"></i><p>내 지갑</p></div>
+            <div class="tab-item" onclick="window.location.href='mypage.html';"><i class="fas fa-user-circle"></i><p>마이페이지</p></div>
+        </footer>
+
+    </div>
+
+    <div id="paymentPopup" class="payment-popup">
+        <div class="payment-content">
+            <div class="payment-header">
+                <h3 id="popupTitle">추가 결제 진행</h3>
+                <button class="close-btn" onclick="closePaymentPopup()">&times;</button>
+            </div>
+            
+            <div class="payment-info">
+                <p>상품: <strong id="productName"></strong></p>
+                <p>상품 가격: <span id="productPrice"></span>원</p>
+                <p>보유 금액권 적용: <span id="ollaConUsed"></span>원</p>
+                <div style="border-top: 1px dashed #eee; margin: 10px 0;"></div>
+                <p>추가 결제 필요 금액:</p>
+                <div class="payment-amount" id="requiredPayment">3,500원</div>
+            </div>
+
+            <p style="font-weight: 600; margin-bottom: 10px;">결제 수단 선택</p>
+            
+            <div class="payment-methods">
+                <button class="method-btn" data-method="credit" onclick="selectPaymentMethod(this)">
+                    <i class="fas fa-credit-card" style="color: #f9634d;"></i> 신용카드 결제
+                </button>
+                <button class="method-btn" data-method="check" onclick="selectPaymentMethod(this)">
+                    <i class="fas fa-credit-card" style="color: #4a90e2;"></i> 체크카드 결제
+                </button>
+                <button class="method-btn" data-method="cash" onclick="selectPaymentMethod(this)">
+                    <i class="fas fa-money-bill-wave" style="color: #1abc9c;"></i> 현금 결제 (계좌이체)
+                </button>
+            </div>
+            
+            <button class="confirm-payment-btn" onclick="processPayment()">
+                3,500원 추가 결제 진행
+            </button>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+    <script>
+        // 마켓 페이지 및 팝업 제어 JavaScript
+        
+        // 캐러셀 기능 (기존 코드 유지)
+        const carousel = document.getElementById('marketCarousel');
+        const indicators = document.getElementById('carouselIndicators').children;
+        const totalSlides = carousel.children.length;
+
+        carousel.addEventListener('scroll', () => {
+            const scrollLeft = carousel.scrollLeft;
+            const itemWidth = carousel.children[0].offsetWidth + 10;
+            let activeIndex = Math.round(scrollLeft / itemWidth);
+            activeIndex = Math.min(Math.max(0, activeIndex), totalSlides - 1);
+
+            for (let i = 0; i < totalSlides; i++) {
+                indicators[i].classList.remove('active');
+            }
+            indicators[activeIndex].classList.add('active');
+        });
+
+        // 팝업 제어 변수
+        const popup = document.getElementById('paymentPopup');
+        let currentProductName = "";
+        let currentRequiredAmount = 0;
+        let selectedMethod = null;
+
+        /**
+         * 팝업을 열고 상품 정보를 설정합니다.
+         * @param {string} name 상품명
+         * @param {number} price 상품 가격 (원)
+         * @param {number} ollaConValue 적용할 올라콘 금액권 가치 (원)
+         */
+        function openPaymentPopup(name, price, ollaConValue) {
+            const requiredAmount = price - ollaConValue;
+            
+            // 1. 상품 가격이 금액권보다 낮거나 같을 경우 (requiredAmount <= 0) -> 교환 불가
+            if (requiredAmount <= 0) {
+                 alert(`[교환 불가 정책] 상품 가격 ${price.toLocaleString()}원이 금액권 ${ollaConValue.toLocaleString()}원 보다 낮거나 같으므로, 교환이 불가능합니다.\n\n오직 금액권보다 높은 가격(차액 5,000원 미만)의 제품만 교환 가능합니다.`);
+                 return;
+            }
+            
+            // 2. 차액이 5000원 초과인 경우 (requiredAmount > 5000) -> 교환 불가
+            if (requiredAmount > 5000) {
+                 alert(`[교환 불가 정책] 해당 상품은 금액권(${ollaConValue.toLocaleString()}원)으로 교환 가능한 차액 5,000원을 초과합니다. (현재 차액: ${requiredAmount.toLocaleString()}원)`);
+                 return;
+            }
+            
+            // 3. 추가 결제 필요한 경우 (0원 < requiredAmount <= 5000원) -> 팝업 실행
+            currentProductName = name;
+            currentRequiredAmount = requiredAmount;
+
+            // 팝업 DOM 요소 업데이트
+            document.getElementById('productName').textContent = name;
+            document.getElementById('productPrice').textContent = price.toLocaleString();
+            document.getElementById('ollaConUsed').textContent = ollaConValue.toLocaleString();
+            document.getElementById('requiredPayment').textContent = requiredAmount.toLocaleString() + '원';
+            
+            const confirmBtn = document.querySelector('.confirm-payment-btn');
+            confirmBtn.textContent = requiredAmount.toLocaleString() + '원 추가 결제 진행';
+            confirmBtn.disabled = true; // 결제 수단 선택 전까지 비활성화
+            
+            // 팝업 열기
+            popup.classList.add('active');
+        }
+
+        function closePaymentPopup() {
+            popup.classList.remove('active');
+            selectedMethod = null;
+            // 모든 버튼 선택 해제
+            document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('selected'));
+            document.querySelector('.confirm-payment-btn').disabled = true;
+        }
+
+        function selectPaymentMethod(button) {
+            // 모든 버튼의 선택 상태 해제
+            document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('selected'));
+            
+            // 현재 버튼 선택 상태 설정
+            button.classList.add('selected');
+            selectedMethod = button.getAttribute('data-method');
+            
+            // 결제 수단 선택 시 결제 버튼 활성화
+            document.querySelector('.confirm-payment-btn').disabled = false;
+        }
+
+        function processPayment() {
+            if (!selectedMethod) {
+                alert('결제 수단을 선택해 주세요.');
+                return;
+            }
+            
+            let message = '';
+            switch (selectedMethod) {
+                case 'credit':
+                    message = `[신용카드] ${currentRequiredAmount.toLocaleString()}원 결제 화면으로 이동합니다.`;
+                    break;
+                case 'check':
+                    message = `[체크카드] ${currentRequiredAmount.toLocaleString()}원 결제 화면으로 이동합니다.`;
+                    break;
+                case 'cash':
+                    message = `[현금 결제] ${currentRequiredAmount.toLocaleString()}원 계좌 이체 안내 화면으로 이동합니다.`;
+                    break;
+            }
+
+            // 실제 결제 API 호출 대신 알림창 출력
+            alert(`상품: ${currentProductName}\n결제 금액: ${currentRequiredAmount.toLocaleString()}원\n\n${message}`);
+
+            // 결제 완료 후 팝업 닫기 (실제 구현 시 API 성공 후 닫아야 함)
+            closePaymentPopup();
+        }
+
+        // 배경 클릭 시 팝업 닫기
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                closePaymentPopup();
+            }
+        });
+    </script>
+</body>
+</html>

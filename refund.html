@@ -1,0 +1,180 @@
+c<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OllaCon - 현금 환불</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        /* [스타일 보완] - 현금 환불 페이지의 레이아웃 및 디테일 스타일링 */
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .app-container { max-width: 450px; margin: 0 auto; background: white; min-height: 100vh; }
+        
+        /* Header */
+        .header { background-color: #f9634d; color: white; padding: 15px 0; }
+        .header-content { display: flex; align-items: center; padding: 0 20px; }
+        .header-icon { color: white; cursor: pointer; font-size: 20px; }
+        .page-title { margin: 0; font-size: 18px; font-weight: 700; }
+        
+        /* Main Content */
+        .main-content { padding: 20px; }
+        .exchange-guide h2 { font-size: 20px; margin-top: 0; margin-bottom: 5px; color: #333; }
+        .exchange-guide p { font-size: 14px; color: #777; margin-bottom: 20px; }
+        
+        /* Summary Box */
+        .summary-box { text-align: center; background: #fff8e1; border: 1px solid #ffecb3; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .summary-title { font-size: 14px; color: #795548; margin-bottom: 5px; }
+        .summary-amount { font-size: 30px; font-weight: 900; color: #f9634d; }
+
+        /* 환불 상세 내역 스타일 (fee-detail) */
+        .fee-detail {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .fee-detail h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 15px;
+        }
+        .fee-row {
+            color: #f9634d; /* 수수료 강조 */
+            border-top: 1px dashed #eee;
+        }
+        .final-amount {
+            font-size: 17px;
+            font-weight: 700;
+            padding-top: 15px;
+            border-top: 2px solid #333; /* 최종 금액 구분선 */
+        }
+        
+        /* 3. 법적 경고 박스 스타일 (legal-warning-box) */
+        .legal-warning-box {
+            display: flex;
+            align-items: flex-start; 
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #fce4e4; /* 연한 빨간색 배경 */
+            border: 2px solid #e74c3c; /* 빨간색 경계선 */
+            border-radius: 8px;
+        }
+        .legal-warning-box i {
+            color: #e74c3c; /* 빨간색 아이콘 */
+            font-size: 20px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .legal-warning-box p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #333;
+        }
+        .legal-warning-box strong {
+            font-weight: 700;
+        }
+
+        /* Account Input */
+        .account-input { margin-top: 30px; }
+        .account-input label { display: block; font-size: 15px; font-weight: 600; color: #333; margin-bottom: 10px; }
+        .account-field { width: calc(100% - 24px); padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; box-sizing: border-box; }
+
+        /* Footer */
+        .exchange-footer { padding: 20px; border-top: 1px solid #eee; background: white; }
+        .exchange-action-button { width: 100%; padding: 15px; background-color: #f9634d; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="header exchange-header">
+            <div class="header-content" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <i class="fas fa-arrow-left header-icon" onclick="history.back();" style="margin-left: 0;"></i>
+                    <h1 class="page-title">현금 환불</h1>
+                </div>
+                <div class="header-icons-right">
+                    <i class="fas fa-home header-icon" onclick="window.location.href='index.html';" style="margin-left: 0;"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            
+            <div class="exchange-guide">
+                <h2>환불 금액 및 계좌 정보</h2>
+                <p>보유하신 올라콘을 현금으로 환불받으세요. 수수료가 차감됩니다.</p>
+            </div>
+
+            <div class="summary-box">
+                <p class="summary-title">현재 환불 가능 총 올라콘</p>
+                <p class="summary-amount">100,000</p>
+            </div>
+
+            <div class="fee-detail">
+                <h3>환불 상세 내역</h3>
+                <div class="detail-row">
+                    <span class="detail-label">환불 신청 금액 (올라콘)</span>
+                    <span class="detail-value">100,000</span>
+                </div>
+                <div class="detail-row fee-row">
+                    <span class="detail-label">환불 수수료 (5%)</span>
+                    <span class="detail-value">- 5,000원</span>
+                </div>
+                <div class="detail-row final-amount">
+                    <span class="detail-label">최종 환불 금액 (입금 예상 금액)</span>
+                    <span class="detail-value">95,000원</span>
+                </div>
+            </div>
+            
+            <div class="legal-warning-box"> 
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>
+                    <strong style="color: #c0392b;">[법적 경고] 타인 명의 및 도용 계좌를 이용한 환불은 명백한 불법 행위입니다.</strong><br>
+                    <span style="font-size: 13px;">이는 **형법 제347조 (사기)** 및 **정보통신망법 제49조 (정보통신망 침해 행위)**에 의거하여 형사 처벌 및 법적 조치의 대상이 됩니다.</span>
+                </p>
+            </div>
+            <div class="account-input">
+                <label>환불 받을 계좌 정보</label>
+                <select class="account-field">
+                    <option>은행 선택</option>
+                    <option>KB국민은행</option>
+                    <option>신한은행</option>
+                    <option>우리은행</option>
+                </select>
+                <input type="text" class="account-field" placeholder="계좌번호를 입력해주세요">
+                <input type="text" class="account-field" placeholder="예금주명을 입력해주세요">
+            </div>
+
+        </main>
+
+        <footer class="exchange-footer">
+            <button class="exchange-action-button" id="refund-button">
+                95,000원 환불 신청 완료
+            </button>
+        </footer>
+
+    </div>
+    
+    <script src="app.js"></script>
+    <script>
+        // 환불 버튼 클릭 시 알림 
+        document.getElementById('refund-button').onclick = function() {
+            alert('95,000원 환불 신청이 완료되었습니다. 영업일 기준 3일 이내 처리됩니다.');
+        }
+    </script>
+</body>
+</html>
